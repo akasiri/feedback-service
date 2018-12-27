@@ -8,5 +8,25 @@ module.exports = app => {
     })
   );
 
-  app.get('/auth/google/callback', passport.authenticate('google'));
+  app.get('/auth/google/callback', (req, res) => {
+    res.redirect('/');
+    next();
+  }, passport.authenticate('google'));
+
+  app.get('/api/current_user', (req, res) => {
+    res.send(req.user);
+  });
+
+  app.get('/api/logout', (req, res) => {
+    req.logout();
+    res.redirect('/');
+  });
+
+  app.get('/', (req, res) => {
+    res.send({
+      user: req.user || null,
+      login: 'http://localhost:5000/auth/google',
+      logout: 'http://localhost:5000/api/logout'
+    });
+  });
 };
