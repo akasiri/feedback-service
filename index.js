@@ -1,5 +1,11 @@
 const express = require('express');
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
+require('./models/User');
 require('./services/passport');
+
+// todo: thow custom error when no keys.js is present
+mongoose.connect(keys.mongoURI);
 
 const app = express();
 
