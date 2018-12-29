@@ -25,10 +25,18 @@ module.exports = app => {
   });
 
   app.get('/', (req, res) => {
-    res.send({
-      user: req.user || null,
-      login: 'http://localhost:5000/auth/google',
-      logout: 'http://localhost:5000/api/logout'
-    });
+    if (process.env.NODE_ENV === 'production') {
+      res.send({
+        user: req.user || null,
+        login: 'https://damp-wave-18301.herokuapp.com/auth/google',
+        logout: 'https://damp-wave-18301.herokuapp.com/api/logout'
+      });
+    } else {
+      res.send({
+        user: req.user || null,
+        login: 'http://localhost:5000/auth/google',
+        logout: 'http://localhost:5000/api/logout'
+      });
+    }
   });
 };
